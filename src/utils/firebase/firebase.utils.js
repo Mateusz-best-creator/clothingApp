@@ -1,9 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { 
     getAuth, 
-    signInWithRedirect, 
+    // signInWithRedirect, 
     signInWithPopup,
-    GoogleAuthProvider 
+    GoogleAuthProvider,
+    createUserWithEmailAndPassword,
 } from 'firebase/auth';
 
 import {
@@ -18,13 +19,13 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDIWJOOpSA_9RKBVPoywEf860Gbwk2vqRc",
-    authDomain: "crown-clothing-app-733b1.firebaseapp.com",
-    projectId: "crown-clothing-app-733b1",
-    storageBucket: "crown-clothing-app-733b1.appspot.com",
-    messagingSenderId: "434563010428",
-    appId: "1:434563010428:web:3d48e2c08160b200d89ef9"
-};
+    apiKey: "AIzaSyBzKKv8TimIPvMuTBI7NsfWCoovj5t4ELU",
+    authDomain: "review-project-1522a.firebaseapp.com",
+    projectId: "review-project-1522a",
+    storageBucket: "review-project-1522a.appspot.com",
+    messagingSenderId: "354057237278",
+    appId: "1:354057237278:web:ceeea5b5b40bbd4592cf0f"
+  };
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
@@ -39,15 +40,16 @@ export const auth = getAuth();
 export const signInWithGooglePopup = () => {
     return signInWithPopup(auth, googleProvider);
 }
-export const signInWithGoogleRedirect = () => {
-    return signInWithRedirect(auth, googleProvider)
-}
+// export const signInWithGoogleRedirect = () => {
+//     return signInWithRedirect(auth, googleProvider)
+// }
 
 // Database
 
 export const database = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
+    if (!userAuth) return;
     // We check if there is an existing document reference
     const userDocRef = doc(database, 'users', userAuth.uid);
 
@@ -62,6 +64,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
                 displayName,
                 email,
                 dataCreated,
+                ...additionalInformation,
             })
         } catch(error) {
             console.log("Error! : ", error);
@@ -69,4 +72,10 @@ export const createUserDocumentFromAuth = async (userAuth) => {
     }
 
     return userDocRef;
+}
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+
+    return await createUserWithEmailAndPassword(auth, email, password);
 }
