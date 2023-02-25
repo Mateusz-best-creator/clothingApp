@@ -8,8 +8,11 @@ import {
 
 import {
     getFirestore,
+    // retrieve documents inside of our firestore database
     doc,
+    // get documents data
     getDoc,
+    // set documents data
     setDoc,
 } from 'firebase/firestore';
 
@@ -22,7 +25,7 @@ const firebaseConfig = {
     messagingSenderId: "434563010428",
     appId: "1:434563010428:web:3d48e2c08160b200d89ef9"
 };
-  
+
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
@@ -40,29 +43,28 @@ export const signInWithGoogleRedirect = () => {
     return signInWithRedirect(auth, googleProvider)
 }
 
+// Database
+
 export const database = getFirestore();
 
 export const createUserDocumentFromAuth = async (userAuth) => {
+    // We check if there is an existing document reference
     const userDocRef = doc(database, 'users', userAuth.uid);
 
-    console.log(userDocRef);
-
     const userSnapshot = await getDoc(userDocRef);
-    console.log(userSnapshot);
-    console.log(userSnapshot.exists());
 
     if (!userSnapshot.exists()) {
         const { displayName, email } = userAuth;
-        const createdAt = new Date();
-
+        const dataCreated = new Date();
         try {
             await setDoc(userDocRef, {
+                // now we pass the data we want to set it with
                 displayName,
                 email,
-                createdAt
+                dataCreated,
             })
-        } catch (error) {
-            console.log('error creating user', error.message)
+        } catch(error) {
+            console.log("Error! : ", error);
         }
     }
 
