@@ -19,6 +19,11 @@ import {
     getDoc,
     // set documents data
     setDoc,
+    // save differenct categories withi nfirestore database
+    collection,
+    writeBatch,
+    getDocs,
+    query,
 } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
@@ -52,9 +57,38 @@ export const signInWithGooglePopup = () => {
 
 export const database = getFirestore();
 
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = collection(database, collectionKey);
+    // batch allows us deletes, updates, writes, sets
+    const batch = writeBatch(database);
+
+    objectsToAdd.forEach((object) => {
+        const documentReference = doc(collectionRef, object.title.toLowerCase());
+        batch.set(documentReference, object);
+    });
+
+    await batch.commit();
+    console.log("done");
+}
+
+export const getCategoriesAndDocuments = async () => {
+    const collectionReference = collection(database, 'categories');
+    const q = query(collectionReference);
+
+    const querySnapshot = await getDocs(q);
+    const categoryMap = querySnapshot.docs.reduce((accumulator, documentSnapshot) => {
+        const { title, items } = documentSnapshot.data();
+        accumulator[title.toLowerCase()] = items;
+        return accumulator;
+    }, {})
+
+    return categoryMap;
+}
+
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
     if (!userAuth) return;
     // We check if there is an existing document reference
+    //                  database | collection name | document name
     const userDocRef = doc(database, 'users', userAuth.uid);
 
     const userSnapshot = await getDoc(userDocRef);

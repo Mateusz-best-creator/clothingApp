@@ -9,8 +9,11 @@ const addCartItem = (cartItems, productToAdd) => {
   
     if (existingCartItem) {
         return cartItems.map((cartItem) => {
-            return cartItem.id === productToAdd.id ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem;
+            return (
+                cartItem.id === productToAdd.id 
+                ? { ...cartItem, quantity: cartItem.quantity + 1 }
+                : cartItem
+            )
         })
     }
     
@@ -39,8 +42,6 @@ const removeCartItem = (cartItems, cartItemToRemove) => {
 const clearItem = (cartItems, cartItemToClear) => {
     return cartItems.filter((item) => item.id !== cartItemToClear.id);
 }
-
-
 
 export const DropdownContext = createContext({
     isDropped : false,
