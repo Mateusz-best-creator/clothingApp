@@ -5,6 +5,7 @@ export const AuthContainer = styled.div`
     width: 100%;
     justify-content: space-between;
     margin: 30px auto;
+    justify-content: center;
 
     @media (max-width: 960px) {
             display: flex;
