@@ -1,14 +1,5 @@
 import styled from "styled-components";
 
-export const CheckoutContainer = styled.div`
-    width: 55%; 
-    min-height: 90vh; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    margin: 50px auto 0;
-`
-
 export const Header = styled.div`
     width: 100%; 
     padding: 10px 0; 
@@ -31,4 +22,25 @@ export const TotalSum = styled.span`
     font-size: 36px; 
 `
        
+export const CheckoutContainer = styled.div`
+    width: 55%; 
+    min-height: 90vh; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    margin: 50px auto 0;
 
+    @media only screen and (max-width: 1100px) {
+        width: 65%;
+    }
+
+    @media only screen and (max-width: 800px) {
+        width: 95%;
+        ${HeaderBlock} {
+            font-size: 0.8rem;
+        }
+        ${LastHeader} {
+            font-size: 0.8rem;
+        }
+    }
+`

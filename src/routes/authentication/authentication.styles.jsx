@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const AuthContainer = styled.div`
     display: flex;
-    width: 950px;
+    width: 100%;
     justify-content: space-between;
     margin: 30px auto;
 
@@ -10,7 +10,6 @@ export const AuthContainer = styled.div`
             display: flex;
             flex-direction: column;
             align-items: center;
-            border: 2px solid red;
         }
 `
 
