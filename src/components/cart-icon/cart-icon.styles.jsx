@@ -21,5 +21,5 @@ export const Counter = styled.span`
     position: absolute; 
     font-size: 15px; 
     font-weight: 800; 
-    bottom: 10px; 
+    bottom: 10px;
 `
